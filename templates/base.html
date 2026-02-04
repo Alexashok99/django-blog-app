@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" id="htmlTag" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+      body {
+        transition: background-color 0.3s, color 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm mb-4">
+      <div class="container-fluid">
+        
+        <a class="navbar-brand fw-bold" href="/">My Blog</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="/home/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">Blog</a>
+            </li>
+          </ul>
+
+          <div class="d-flex">
+            <button class="btn btn-outline-primary rounded-pill px-3" onclick="toggleTheme()" id="themeBtn">
+              🌙 Dark Mode
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="container min-vh-100"> {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const htmlTag = document.getElementById('htmlTag');
+        const themeBtn = document.getElementById('themeBtn');
+
+        // 1. Check Previous Selection
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(currentTheme);
+
+        // 2. Apply Theme Function
+        function applyTheme(theme) {
+            htmlTag.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            if (theme === 'dark') {
+                themeBtn.innerHTML = '☀️ Light Mode'; // Changed to innerHTML for potential icons
+                themeBtn.classList.replace('btn-outline-primary', 'btn-outline-warning'); // Make button yellow in dark mode
+            } else {
+                themeBtn.innerHTML = '🌙 Dark Mode';
+                themeBtn.classList.replace('btn-outline-warning', 'btn-outline-primary'); // Make button blue in light mode
+            }
+        }
+
+        // 3. Toggle Function
+        function toggleTheme() {
+            const current = htmlTag.getAttribute('data-bs-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        }
+    </script>
+  </body>
+</html>
+

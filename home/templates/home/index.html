@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome Home{% endblock %}
+
+{% block content %}
+
+<div class="p-5 mb-5 rounded-3 shadow-sm text-center">
+  <div class="container-fluid py-3">
+    <h1 class="display-4 fw-bold text-primary">Welcome to MyWebsite</h1>
+    <p class="fs-4 text-muted">
+      Tech, Coding aur Django seekhne ke liye behtareen jagah.
+    </p>
+    <a href="{% url 'blog' %}" class="btn btn-primary btn-lg mt-2">Read All Blogs</a>
+  </div>
+</div>
+
+<h2 class="mb-4 border-bottom pb-2">🚀 Latest Updates</h2>
+
+<div class="row">
+  {% for post in latest_posts %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted small">
+          {{ post.pub_date|date:"d M Y" }}
+        </h6>
+        <p class="card-text">
+          {{ post.content|truncatewords:15 }}
+        </p>
+        <a href="{% url 'blog_detail' post.pk %}" class="btn btn-outline-dark btn-sm">Read Article</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <p>
+      Abhi koi post nahi hai.
+    </p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
